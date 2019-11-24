@@ -24,7 +24,11 @@ module.exports = {
     },
 
     async index(req, res) {
-        const Addresses = await Address.findAll();
-        return res.json(Addresses);
+        const { user_id } = req.params;
+        const user = await User.findByPk(user_id, {
+            include: { association: 'addresses' }
+        });
+
+        return res.json(user.addresses);
     }
 }
